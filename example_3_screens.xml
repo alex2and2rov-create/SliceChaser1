@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XmlState name="Example 3 screens">
+	<versionInfo name="Resolume Arena" majorVersion="7" minorVersion="27" microVersion="0" revision="14395"/>
+	<ScreenSetup name="ScreenSetup">
+		<Params name="ScreenSetupParams"/>
+		<CurrentCompositionTextureSize width="3840" height="1080"/>
+		<screens>
+			<Screen name="LED Left" uniqueId="1">
+				<Params name="Params">
+					<Param name="Name" T="STRING" default="" value="LED Left"/>
+					<Param name="Enabled" T="BOOL" default="1" value="1"/>
+				</Params>
+				<layers>
+					<Slice uniqueId="11">
+						<Params name="Common">
+							<Param name="Name" T="STRING" default="Layer" value="Left A"/>
+							<Param name="Enabled" T="BOOL" default="1" value="1"/>
+						</Params>
+						<InputRect orientation="0">
+							<v x="0" y="0"/><v x="960" y="0"/><v x="960" y="1080"/><v x="0" y="1080"/>
+						</InputRect>
+						<OutputRect orientation="0">
+							<v x="0" y="0"/><v x="960" y="0"/><v x="960" y="1080"/><v x="0" y="1080"/>
+						</OutputRect>
+					</Slice>
+					<Slice uniqueId="12">
+						<Params name="Common">
+							<Param name="Name" T="STRING" default="Layer" value="Left B"/>
+							<Param name="Enabled" T="BOOL" default="1" value="1"/>
+						</Params>
+						<InputRect orientation="0">
+							<v x="960" y="0"/><v x="1920" y="0"/><v x="1920" y="1080"/><v x="960" y="1080"/>
+						</InputRect>
+					</Slice>
+					<Mask uniqueId="13">
+						<InputRect orientation="0">
+							<v x="0" y="0"/><v x="100" y="0"/><v x="100" y="100"/><v x="0" y="100"/>
+						</InputRect>
+					</Mask>
+				</layers>
+			</Screen>
+			<Screen name="LED Center" uniqueId="2">
+				<Params name="Params">
+					<Param name="Name" T="STRING" default="" value="LED Center"/>
+				</Params>
+				<layers>
+					<Slice uniqueId="21">
+						<Params name="Common">
+							<Param name="Name" T="STRING" default="Layer" value="Center"/>
+						</Params>
+						<InputRect orientation="0">
+							<v x="1920" y="0"/><v x="2880" y="0"/><v x="2880" y="1080"/><v x="1920" y="1080"/>
+						</InputRect>
+					</Slice>
+					<Slice uniqueId="22">
+						<Params name="Common">
+							<Param name="Name" T="STRING" default="Layer" value="Disabled one"/>
+							<Param name="Enabled" T="BOOL" default="1" value="0"/>
+						</Params>
+						<InputRect orientation="0">
+							<v x="0" y="0"/><v x="3840" y="0"/><v x="3840" y="1080"/><v x="0" y="1080"/>
+						</InputRect>
+					</Slice>
+				</layers>
+			</Screen>
+			<Screen name="LED Right" uniqueId="3">
+				<Params name="Params">
+					<Param name="Name" T="STRING" default="" value="LED Right &amp; Wing"/>
+				</Params>
+				<layers>
+					<Slice uniqueId="31">
+						<Params name="Common">
+							<Param name="Name" T="STRING" default="Layer" value="Right (tilted)"/>
+						</Params>
+						<InputRect orientation="0">
+							<v x="3000" y="100"/><v x="3800" y="200"/><v x="3700" y="1000"/><v x="2950" y="900"/>
+						</InputRect>
+					</Slice>
+				</layers>
+			</Screen>
+		</screens>
+	</ScreenSetup>
+</XmlState>
