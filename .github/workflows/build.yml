@@ -1,0 +1,38 @@
+name: Build Slice Chaser plugin
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -A x64 -DSLICECHASER_BUILD_TESTS=ON
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Unit tests
+        run: build/Release/chaser_tests.exe examples/example_3_screens.xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SliceChaser-Windows
+          path: build/dist/
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -G Xcode -DSLICECHASER_BUILD_TESTS=ON
+      - name: Build (universal arm64 + x86_64)
+        run: cmake --build build --config Release
+      - name: Unit tests
+        run: build/Release/chaser_tests examples/example_3_screens.xml
+      - name: Zip bundle
+        run: cd build/dist && ditto -c -k --keepParent SliceChaser.bundle SliceChaser-macOS.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SliceChaser-macOS
+          path: build/dist/SliceChaser-macOS.zip
