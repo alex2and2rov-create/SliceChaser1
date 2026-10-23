@@ -43,15 +43,29 @@ if(NOT APPLE)
     endif()
 endif()
 
+# Sources may live in src/ (normal layout) or directly next to this file
+# (when uploaded through a browser that flattens folders).
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/FFGLChaser.cpp)
+    set(SRC src)
+else()
+    set(SRC .)
+endif()
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests/chaser_tests.cpp)
+    set(TESTS_DIR tests)
+else()
+    set(TESTS_DIR .)
+endif()
+message(STATUS "Slice Chaser sources: ${SRC}")
+
 set(SOURCES
-    src/FFGLChaser.cpp
-    src/FFGLChaser.h
-    src/ChaseEngine.cpp
-    src/ChaseEngine.h
-    src/Zones.cpp
-    src/Zones.h
-    src/MiniXml.cpp
-    src/MiniXml.h
+    ${SRC}/FFGLChaser.cpp
+    ${SRC}/FFGLChaser.h
+    ${SRC}/ChaseEngine.cpp
+    ${SRC}/ChaseEngine.h
+    ${SRC}/Zones.cpp
+    ${SRC}/Zones.h
+    ${SRC}/MiniXml.cpp
+    ${SRC}/MiniXml.h
     ${FFGL_LIB}/FFGLSDK.cpp
 )
 if(NOT APPLE)
@@ -67,7 +81,7 @@ if(APPLE)
     set_target_properties(SliceChaser PROPERTIES
         BUNDLE TRUE
         BUNDLE_EXTENSION bundle
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/src/Info.plist.in
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}/Info.plist.in
         MACOSX_BUNDLE_BUNDLE_NAME SliceChaser
         MACOSX_BUNDLE_GUI_IDENTIFIER com.slicechaser.ffgl
         XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH NO)
@@ -78,7 +92,7 @@ else()
     target_compile_definitions(SliceChaser PRIVATE GLEW_STATIC GLEW_NO_GLU)
     target_include_directories(SliceChaser PRIVATE ${GLEW_DIR}/include)
 endif()
-target_include_directories(SliceChaser PRIVATE ${FFGL_LIB} src)
+target_include_directories(SliceChaser PRIVATE ${FFGL_LIB} ${SRC})
 
 if(WIN32)
     target_link_libraries(SliceChaser PRIVATE opengl32)
@@ -105,6 +119,6 @@ endif()
 
 option(SLICECHASER_BUILD_TESTS "Build unit tests for zones and the chase engine" OFF)
 if(SLICECHASER_BUILD_TESTS)
-    add_executable(chaser_tests tests/chaser_tests.cpp src/ChaseEngine.cpp src/Zones.cpp src/MiniXml.cpp)
-    target_include_directories(chaser_tests PRIVATE src)
+    add_executable(chaser_tests ${TESTS_DIR}/chaser_tests.cpp ${SRC}/ChaseEngine.cpp ${SRC}/Zones.cpp ${SRC}/MiniXml.cpp)
+    target_include_directories(chaser_tests PRIVATE ${SRC})
 endif()

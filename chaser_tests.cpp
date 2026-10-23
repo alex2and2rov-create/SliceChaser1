@@ -241,9 +241,13 @@ int main( int argc, char** argv )
 	}
 
 	// --- Advanced Output XML
-	if( argc > 1 )
+	// The example may sit in examples/ or next to the sources (flat upload).
+	std::string xmlPath = argc > 1 ? argv[ 1 ] : "";
+	if( !xmlPath.empty() && LoadAdvancedOutput( xmlPath, GroupBy::Slices ).error.rfind( "cannot open", 0 ) == 0 )
+		xmlPath = "example_3_screens.xml";
+	if( !xmlPath.empty() )
 	{
-		ZoneSet s = LoadAdvancedOutput( argv[ 1 ], GroupBy::Slices );
+		ZoneSet s = LoadAdvancedOutput( xmlPath, GroupBy::Slices );
 		std::printf( "xml: %s %s\n", s.info.c_str(), s.error.c_str() );
 		CHECK( s.error.empty() );
 		CHECK( s.compWidth == 3840 && s.compHeight == 1080 );
@@ -254,7 +258,7 @@ int main( int argc, char** argv )
 			CHECK( s.zones[ 3 ].name == "LED Right & Wing / Right (tilted)" );
 			CHECK( std::fabs( s.zones[ 1 ].cx - 0.375 ) < 1e-9 );
 		}
-		ZoneSet byScreen = LoadAdvancedOutput( argv[ 1 ], GroupBy::Screens );
+		ZoneSet byScreen = LoadAdvancedOutput( xmlPath, GroupBy::Screens );
 		CHECK( byScreen.zones.size() == 3 );
 		if( byScreen.zones.size() == 3 )
 			CHECK( byScreen.zones[ 0 ].polys.size() == 2 );
